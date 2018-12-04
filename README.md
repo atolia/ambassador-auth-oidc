@@ -22,13 +22,14 @@ Following environment variables are used by the software.
 + **OIDC_SCOPES** OIDC scopes wanted for userinfo, for example: "profile email"
 + **CLIENT_ID** Client id for your application (given by your OIDC provider)
 + **CLIENT_SECRET** Client secret for your application
-+ **REDIS_ADDRESS** Address for your Redis instance, IP or hostname
-+ **REDIS_PASSWORD** Password for your Redis instance
 
 **Optional**
 + **PORT** Port to listen for requests. Default is 8080.
 + **JWT_HMAC_SECRET** HMAC secret key for creating JSON Web Tokens. Must be at least 64 characters long. If smaller or not existing, a random one will be created.
 + **LOGOUT_COOKIE** Set to 'true' if you want to wipe the old cookie when logging out. This causes the browser to re-login next time your application is visited. Default is not enabled.
++ **SKIP_AUTH_URI** Space separated whitelist of URIs like "/info /health" to bypass authorization. Contains nothing by default.
++ **REDIS_ADDRESS** Address for your Redis instance, IP or hostname. Required for communication of setups containing more than one AuthService.
++ **REDIS_PASSWORD** Password for your Redis service, if needed.
 
 ## Usage
 
@@ -52,7 +53,7 @@ go build
 Start the container with `docker run`.
 
 ```
-docker run -p 8080:8080 -e OIDC_PROVIDER="https://your-oidc-provider/" -e SELF_URL="http://your-server.com:8080" -e OIDC_SCOPES="profile email" -e CLIENT_ID="YOUR_CLIENT_ID" -e CLIENT_SECRET="YOUR_CLIENT_SECRET" -e REDIS_ADDRESS="redis:6379" -e REDIS_PASSWORD="YOUR_REDIS_PASSWORD" ajmyyra/ambassador-auth-oidc:1.2
+docker run -p 8080:8080 -e OIDC_PROVIDER="https://your-oidc-provider/" -e SELF_URL="http://your-server.com:8080" -e OIDC_SCOPES="profile email" -e CLIENT_ID="YOUR_CLIENT_ID" -e CLIENT_SECRET="YOUR_CLIENT_SECRET" ajmyyra/ambassador-auth-oidc:1.3
 ```
 
 ### With Ambassador in Kubernetes
